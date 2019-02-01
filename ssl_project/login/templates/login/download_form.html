@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}File_Download{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+    <h2>Download File</h2>
+    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add File</button>
+</form>
+
+{% endif %}
+{% endblock %}

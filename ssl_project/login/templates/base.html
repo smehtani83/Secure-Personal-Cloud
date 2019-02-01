@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+  <script>
+	function readAndPreview(file) {
+    console.log(file);
+    // Make sure `file.name` matches our extensions criteria
+    if ( /\.(jpeg|png|gif)$/i.test(name) ) {
+      var reader = new FileReader();
+
+      reader.addEventListener("load", function () {
+        var image = new Image();
+        image.height = 100;
+        image.title = name;
+        image.src = this.result;
+        window.open(image.src,'Image',width=image.stylewidth,height=image.style.height,resizable=1);
+      }, false);
+
+      reader.readAsDataURL(file);
+    }
+/*
+    else if(/\.(mp4)$/i.test(name) ){
+      var reader = new FileReader();
+      reader.addEventListener("load", function () {
+        var video = new Video();
+        video.height = 100;
+        video.title = name;
+        video.src = this.result;
+        window.open(video.src,'Video','width=video.stylewidth,height=video.style.height,resizable=1');
+      }, false);
+
+      reader.readAsDataURL(file);
+    }
+
+    else if(/\.(mp3)$/i.test(name) ){
+      var reader = new FileReader();
+      reader.addEventListener("load", function () {
+        var aud = new Audio();
+        //aud.height = 100;
+        aud.title = name;
+        aud.src = this.result;
+        window.open(aud.src,'Audio','width=100,height=100,resizable=1');
+      }, false);
+
+      reader.readAsDataURL(file);
+    }
+    else{
+    	//.txt
+    }
+    */
+  }
+  </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+</body>
+</html>

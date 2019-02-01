@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+    <ul>
+  {% for file in user.file_set.all %}
+    {% with file.id as fid %}
+    {% with user.id as id %}
+    <li id="{{ fid }}" class="file">{{ file.file_name }}</li>
+<div style="display: none " >
+    <form action="{% url 'file_window' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="uid" id="inp1"><br>
+        <input type="text" name="fid" id="inp2"><br>
+        <button type="submit" id="button">
+    </form>
+</div>
+    {% endwith %}
+    {% endwith %}
+    {% endfor %}
+    </ul>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+   <!--$(document).ready(function(){-->
+            <!--$("#button").click(function(){-->
+                <!--var uid = "{{ id }}";\-->
+                <!--var fid = "{{ fid }}";-->
+                <!--console.log(uid);-->
+                <!--console.log(fid);-->
+                <!--$("#inp1").attr('value',uid);-->
+                <!--$("#inp2").attr('value',fid);-->
+                <!--$("#button").click();-->
+            <!--})});-->
+    </script>
+   <script>
+       $(document).ready(function(){
+            $("li").click(function(){
+                var uid = "{{ user.id }}";
+                var fid =  $(this).attr("id");
+                console.log(uid);
+                console.log(fid);
+                $("#inp1").attr('value',uid);
+                $("#inp2").attr('value',fid);
+                $("#button").click();
+            })});
+   </script>
+   <!--
+<script>
+var i;
+for (i = 0; i < user.file_set.all.length; i++) {
+    file1=user.file_set.all[i]
+}
+
+
+    var blobUrl = URL.createObjectURL(file.file_file);
+
+        var link = document.createElement("a");
+        link.href = blobUrl;
+    link.download = file.file_name;
+    link.innerHTML = file.file_name;
+    document.body.appendChild(link);
+
+
+
+
+  var blob = base64toBlob(file);
+
+</script>
+    -->
+
+
+<!--
+<button onclick="myfunc(data)">{{ file }}</button>
+    <a href="home.html" target="_blank">{{ file }}</a>
+    <br>
+
+    <script>
+    function myfunc(){
+        var data= arguments[0];
+        console.log(data);
+        var win = window.open("","Txt","width=200,height=100");
+        win.document.write("<p></p>");
+        }
+    </script>
+-->
+
+  <p><a href="{% url 'logout' %}">logout</a></p>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+  <a href="{% url 'signup' %}">Signup</a>
+{% endif %}
+{% endblock %}

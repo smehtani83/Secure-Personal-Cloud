@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Open file</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js">
+</script>
+</head>
+<body>
+    <script type="text/javascript">
+        var dat = "{{ data }}";
+        var ext =  "{{ ext }}";
+        var cdata = dat.replace(/ /g,'+');
+
+
+
+           function decrypt_core_AES_CBC(key, iv, ciphertext) {
+            var key = CryptoJS.enc.Hex.parse(key);
+            var message = CryptoJS.TripleDES.decrypt({
+            ciphertext: ciphertext
+            }, key, {
+             iv: iv,
+             padding: CryptoJS.pad.NoPadding,
+             mode: CryptoJS.mode.CBC
+            });
+             return CryptoJS.enc.Base64.stringify(message);
+           }
+
+        function decrypt_core_DES(key, iv, ciphertext) {
+            var key = CryptoJS.enc.Hex.parse(key);
+            var message = CryptoJS.TripleDES.decrypt({
+            ciphertext: ciphertext
+            }, key, {
+            iv: iv,
+            padding: CryptoJS.pad.NoPadding,
+            mode: CryptoJS.mode.CBC
+        });
+  return CryptoJS.enc.Base64.stringify(message);
+}
+            var base64text = dat;
+            var ciphertext = CryptoJS.enc.Base64.parse(base64text)
+            var schema = "1";
+            var iv = CryptoJS.enc.Hex.parse("1234567890123456");
+            var key = "b026324c6904b2a9cb4b88d6d61c81d1";
+            var dec;
+        if(schema=="1"){
+            dec = decrypt_core_AES_CBC(key, iv, ciphertext);
+        }
+        else if(schema=="2"){
+            dec = decrypt_core_DES(key, iv, ciphertext);
+        }
+        else{
+            dec="random";
+           }
+           console.log(dec);
+        var data = dec.slice(2,-1);
+    </script>
+    <div>
+</div>
+
+    <script type="text/javascript">
+    add1='<p>'+ext+'</p>';
+    document.write(add1);
+    if(ext=="jpeg"||ext=="jpg"||ext=="png"){
+        add='<img src="data:image/'+ext+';base64, ' + data +'">';
+        console.log(ext);
+        document.write(add);
+    }
+    else if(ext=="mp4"||ext=="mkv"){
+        add='<video controls src="data:video/'+ext+';base64,' + data +'">';
+        document.write(add);
+    }
+    else if(ext=="mp3"||ext=="ogg"){
+        add='<audio controls src="data:audio/'+ext+';base64,' + data +'">';
+        document.write(add);
+        }
+     else{
+     add='<p src="data:text/plain/'+ext+';base64,' + data +'">' + '</p>';
+     document.write(add);
+     }
+	</script>
+</body>
+</html>

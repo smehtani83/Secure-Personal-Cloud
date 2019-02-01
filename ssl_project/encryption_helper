@@ -1,0 +1,14 @@
+The RSA algorithm is used for software protection and in digital signature scheme. It is also used in an open system PGP encryption and in other encryption systems, (e.g., DarkCryptTC format and xdc) in combination with symmetric algorithms.
+Because of the low speed of encryption (about 30 kbit / s at 512 bit key to data processing machine 2GHz), messages are typically encrypted using more efficient symmetric algorithms with a random key (session key), and using the RSA encrypt only the key, thus is realized a hybrid cryptosystem. Such a mechanism has the potential vulnerability due to the need to use cryptographically strong random number generator for generating a random session key for symmetric encryption and effectively resist the attacks on symmetric encryption algorithm (for the time being are widely used AES, IDEA, Serpent, Twofish)
+if [ -f ~/enc.txt ]:then
+enc_schema=$(head -n 1 ~/enc.txt)
+key=$(tail -n 1 ~/enc.txt)
+if [ $enc_schema = "1" ]:then
+openssl enc -aes-256-cbc -in <filename> -out <filename>.enc -e -a -nosalt -K key -iv 12345678901234567890123456789012 -p -nopad
+elif [ $enc_schema = "2" ]:then
+openssl enc -blowfish -in <filename> -out <filename>.enc -e -a -nosalt -K key -iv 1234567890123456 -p -nopad
+else
+openssl enc -des3 -in "ProjectPoints1.enc.odt" -out "musicdec.flac" -e -a -nosalt -K key -iv 1234567890123456 -p -nopad
+fi
+else
+echo "Register first using command: spc register"
